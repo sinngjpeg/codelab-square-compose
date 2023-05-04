@@ -3,14 +3,25 @@ package com.example.squarecompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.squarecompose.ui.theme.SquareComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,12 +29,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SquareComposeTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SquareComposableScreen("Android")
+                    SquareComposableApp()
                 }
             }
         }
@@ -31,31 +41,64 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SquareComposableApp(modifier: Modifier = Modifier) {
-    SquareComposableScreen(
-        titleTextComposable = stringResource(R.string.text_composable_title),
-        descriptionTextComposable = stringResource(R.string.text_composable_desc),
-        titleImageComposable = stringResource(R.string.image_composable_title),
-        descriptionImageComposable = stringResource(R.string.image_composable_desc),
-        titleRowComposable = stringResource(R.string.row_composable_title),
-        descriptionRowComposable = stringResource(R.string.row_composable_desc),
-        titleColumnComposable = stringResource(R.string.column_composable_title),
-        descriptionColumnComposable = stringResource(R.string.column_composable_desc)
-    )
+fun SquareComposableApp() {
+    Column(Modifier.fillMaxWidth()) {
+        Row(Modifier.weight(1f)) {
+            SquareComposableScreen(
+                title = stringResource(R.string.text_composable_title),
+                description = stringResource(R.string.text_composable_desc),
+                backgroundColor = Color(0xFFEADDFF),
+                modifier = Modifier.weight(1f)
+            )
+            SquareComposableScreen(
+                title = stringResource(R.string.image_composable_title),
+                description = stringResource(R.string.image_composable_desc),
+                backgroundColor = Color(0xFFD0BCFF),
+                modifier = Modifier.weight(1f)
+            )
+        }
+        Row(Modifier.weight(1f)) {
+            SquareComposableScreen(
+                title = stringResource(R.string.row_composable_title),
+                description = stringResource(R.string.row_composable_desc),
+                backgroundColor = Color(0xFFB69DF8),
+                modifier = Modifier.weight(1f)
+            )
+            SquareComposableScreen(
+                title = stringResource(R.string.column_composable_title),
+                description = stringResource(R.string.column_composable_desc),
+                backgroundColor = Color(0xFFF6EDFF),
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
 }
 
 @Composable
 fun SquareComposableScreen(
-    titleTextComposable: String,
-    descriptionTextComposable: String,
-    titleImageComposable: String,
-    descriptionImageComposable: String,
-    titleRowComposable: String,
-    descriptionRowComposable: String,
-    titleColumnComposable: String,
-    descriptionColumnComposable: String,
+    title: String,
+    description: String,
+    backgroundColor: Color,
     modifier: Modifier = Modifier
 ) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(backgroundColor)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = title,
+            modifier = Modifier.padding(bottom = 16.dp),
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = description,
+            textAlign = TextAlign.Justify
+        )
+    }
 
 }
 
@@ -63,6 +106,6 @@ fun SquareComposableScreen(
 @Composable
 fun SquareComposePreview() {
     SquareComposeTheme {
-        SquareComposableScreen("Android")
+        SquareComposableApp()
     }
 }
